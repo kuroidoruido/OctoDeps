@@ -1,0 +1,81 @@
+{% extends "base" %}
+
+{% block content %}
+
+    <style>
+    {% for group in groups %}
+    fieldset.group-{{group.id}} {
+        border-color: {{group.color}};
+    }
+    fieldset.group-{{group.id}} legend {
+        color: {{group.color}};
+    }
+    {% endfor %}
+    </style>
+
+    {% for app in apps %}
+        <fieldset class="group-{{app.group}}">
+            <legend>
+                <span class="app-name">{{app.name}}</span>
+                <span class="group-name">{{groups_map[app.group].name}}</span>
+            </legend>
+            {% for asset in app.assetInfos %}
+                <div class="p-card">
+                    <h3 class="p-card__title">{{asset.name}}</h3>
+                    <div class="p-card__content">
+                        <ul class="p-list">
+                            {% for dep in asset.dependencies %}
+                                {% if dep.highlight %}
+                                    <li class="dep-item p-list__item">
+                                        <span class="dep-name">{{dep.name}}</span>
+                                        {% if dep.dependencyOutdated.wanted is defined and dep.dependencyOutdated.wanted != dep.version %}
+                                        <span class="dep-versions outdated">
+                                        {% elif dep.dependencyOutdated.latest is defined and dep.dependencyOutdated.latest != dep.version %}
+                                        <span class="dep-versions outdated">
+                                        {% else %}
+                                        <span class="dep-versions">
+                                        {% endif %}
+                                            <span class="dep-version-current p-tooltip--btm-center">
+                                                {{dep.version}}
+                                                <span class="p-tooltip__message" role="tooltip" id="btm-cntr">Current</span>
+                                            </span>
+                                            {% if dep.dependencyOutdated.wanted %}
+                                            ➔<span class="dep-version-wanted p-tooltip--btm-center">
+                                                {{dep.dependencyOutdated.wanted}}
+                                                <span class="p-tooltip__message" role="tooltip" id="btm-cntr">Wanted</span>
+                                            </span>
+                                            {% endif %}
+                                            {% if dep.dependencyOutdated.latest %}
+                                            ➔<span class="dep-version-latest p-tooltip--btm-center">
+                                                {{dep.dependencyOutdated.latest}}
+                                                <span class="p-tooltip__message" role="tooltip" id="btm-cntr">Latest</span>
+                                            </span>
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for dep in asset.devDependencies %}
+                                {% if dep.highlight %}
+                                    <li class="dep-item dep-item-dev p-list__item">
+                                        <span class="dep-name">{{dep.name}}</span>
+                                        <span class="dep-versions">
+                                            <span class="dep-version-current">{{dep.version}}</span>
+                                            {% if dep.dependencyOutdated.wanted %}
+                                            ➔<span class="dep-version-wanted">{{dep.dependencyOutdated.wanted}}</span>
+                                            {% endif %}
+                                            {% if dep.dependencyOutdated.latest %}
+                                            ➔<span class="dep-version-latest">{{dep.dependencyOutdated.latest}}</span>
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
+    {% endfor %}
+    <p class="u-align-text--right">Last updated on: {{last_updated_on}}</p>
+{% endblock content %}

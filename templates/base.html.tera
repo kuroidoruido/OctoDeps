@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>OctoDeps</title>
+    <link rel="stylesheet" href="static/vanilla-framework-version-2.25.1.min.css" />
+    <style>
+        .p-navigation__logo {
+            padding-top: 0.75rem;
+        }
+        #main-content {
+            margin: 1rem 0.5rem 0 0.5rem;
+        }
+        fieldset {
+            display: flex;
+            flex-direction: row;
+        }
+        fieldset legend {
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        fieldset legend .app-name {
+            font-size: 150%;
+        }
+        fieldset legend .group-name {
+            font-size: 80%;
+        }
+        .p-card {
+            max-width: 50rem;
+            width: 30vw;
+        }
+        .dep-item {
+            display: flex;
+        }
+        .dep-item .dep-versions {
+            flex: 1 1 auto;
+            display: inline-block;
+            text-align: right;
+        }
+        .dep-item .dep-versions .dep-version-current {
+            padding-right: 0.15em;
+        }
+        .dep-item .dep-versions.outdated .dep-version-current {
+            color: #c62828;
+            font-weight: bold;
+        }
+        .dep-item .dep-versions .dep-version-wanted {
+            padding-left: 0.15em;
+            padding-right: 0.15em;
+            color: #7cb342;
+            font-weight: bold;
+        }
+        .dep-item .dep-versions .dep-version-latest {
+            padding-left: 0.15em;
+            color: #00b0ff;
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body>
+    <header id="navigation" class="p-navigation">
+        <div class="p-navigation__row">
+            <div class="p-navigation__banner">
+                <div class="p-navigation__logo">OctoDeps</div>
+            </div>
+            <nav class="p-navigation__nav" aria-label="Groups">
+            <span class="u-off-screen">
+                <a href="#main-content">Jump to main content</a>
+            </span>
+            <ul class="p-navigation__items">
+                <li class="p-navigation__item is-selected">
+                    <a class="p-navigation__link" href="?group=All">All</a>
+                </li>
+                {% for group in groups %}
+                    <li class="p-navigation__item">
+                        <a class="p-navigation__link" href="?group={{group.id}}">{{group.name}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="main-content">
+        {% block content %}{% endblock content %}
+    </section>
+  </body>
+</html>

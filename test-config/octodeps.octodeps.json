@@ -1,0 +1,31 @@
+[{
+    "name": "OctoDeps service",
+    "version": "0.1.0",
+    "dependencies": [{
+        "name": "rocket",
+        "version": "0.4.7",
+        "highlight": true,
+        "dependencyOutdated": {
+            "wanted": "0.4.8"
+        }
+    },{
+        "name": "rocket_contrib",
+        "version": "0.4.7",
+        "highlight": true,
+        "dependencyOutdated": {
+            "wanted": "0.4.7",
+            "latest": "0.5.0"
+        }
+    },{
+        "name": "serde",
+        "version": "1.0.123",
+        "highlight": false,
+        "dependencyOutdated": {}
+    }],
+    "devDependencies": [{
+        "name": "octodeps-rs",
+        "version": "0.1.0",
+        "highlight": true,
+        "dependencyOutdated": {}
+    }]
+}]

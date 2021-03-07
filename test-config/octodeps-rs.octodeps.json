@@ -1,0 +1,11 @@
+[{
+    "name": "OctoDeps rust cli",
+    "version": "0.1.0",
+    "dependencies": [],
+    "devDependencies": [{
+        "name": "octodeps-rs",
+        "version": "0.1.0",
+        "highlight": true,
+        "dependencyOutdated": {}
+    }]
+}]

@@ -1,40 +1,48 @@
 use std::collections::HashMap;
-use chrono::Utc;
+use std::sync::RwLock;
+use chrono::{DateTime,Utc,TimeZone};
 use rocket::State;
 use rocket_contrib::json::Json;
 use rocket_contrib::templates::Template;
 use rocket_contrib::serve::StaticFiles;
 
-use crate::models;
+use crate::models::{App,Group,OctoDepsState,TemplateContext};
 
 #[get("/")]
-fn index(groups_state: State<Vec<models::Group>>, apps_state: State<Vec<models::App>>) -> Template {
-    let groups = groups_state.to_vec();
-    let mut groups_map: HashMap<String, models::Group> = HashMap::new();
+fn index(state: State<&RwLock<OctoDepsState>>) -> Template {
+    let read_state = state.read().unwrap();
+    let apps = read_state.apps.clone();
+    let groups = read_state.groups.clone();
+    let last_updated_on_date: DateTime<Utc> = match read_state.last_updated_on {
+        None => Utc.ymd(1970, 1, 1).and_hms_milli(0, 0, 0, 0),
+        Some(d) => d
+    };
+    let last_updated_on = last_updated_on_date.format("%F %X").to_string();
+    let mut groups_map: HashMap<String, Group> = HashMap::new();
     for group in groups.iter() {
         groups_map.insert(group.id.clone(), group.clone());
     }
-    let apps = apps_state.to_vec().clone();
-    let last_updated_on = Utc::now().format("%F %X").to_string();
-    let context = models::TemplateContext { last_updated_on, groups, groups_map, apps };
+    let context = TemplateContext { last_updated_on, groups, groups_map, apps };
     Template::render("index", &context)
 }
+
 #[get("/apps")]
-fn get_apps_json(app_infos: State<Vec<models::App>>) -> Json<Vec<models::App>> {
-    Json(app_infos.to_vec())
+fn get_apps_json(state: State<&RwLock<OctoDepsState>>) -> Json<Vec<App>> {
+    let read_state = state.read().unwrap();
+    Json(read_state.apps.clone())
 }
+
 #[get("/groups")]
-fn get_groups_json(groups: State<Vec<models::Group>>) -> Json<Vec<models::Group>> {
-    Json(groups.to_vec())
+fn get_groups_json(state: State<&RwLock<OctoDepsState>>) -> Json<Vec<Group>> {
+    let read_state = state.read().unwrap();
+    Json(read_state.groups.clone())
 }
 
-
-pub fn start(groups: Vec<models::Group>, apps: Vec<models::App>) {
+pub fn start(state: &'static RwLock<OctoDepsState>) {
     rocket::ignite()
         .mount("/", routes![index, get_apps_json, get_groups_json])
         .mount("/static", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")))
         .attach(Template::fairing())
-        .manage(apps)
-        .manage(groups)
+        .manage(state)
         .launch();
 }

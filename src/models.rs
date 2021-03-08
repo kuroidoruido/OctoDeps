@@ -1,5 +1,19 @@
 use std::collections::HashMap;
+use chrono::{DateTime,Utc};
 use serde::{Serialize, Deserialize};
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct ConfigFile {
+    pub groups: Vec<Group>,
+    pub apps: Vec<App>,
+}
+
+#[derive(Clone, Debug)]
+pub struct OctoDepsState {
+    pub groups: Vec<Group>,
+    pub apps: Vec<App>,
+    pub last_updated_on: Option<DateTime<Utc>>,
+}
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Group {
@@ -16,7 +30,7 @@ pub struct App {
     // use for config file
     pub asset_version_urls: Vec<String>,
     // use for template
-    pub asset_infos: Vec<AssetInfos>,
+    pub asset_infos: Option<Vec<AssetInfos>>,
 }
 
 

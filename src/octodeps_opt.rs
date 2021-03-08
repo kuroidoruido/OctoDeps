@@ -6,7 +6,7 @@ use structopt::StructOpt;
     about = "Simple tool to track projects dependencies.",
 )]
 pub struct OctodepsOpt {
-    /// Config: the config file path or http url.
+    /// Config: the config file path
     #[structopt(short, long)]
-    config: String,
+    pub config: String,
 }

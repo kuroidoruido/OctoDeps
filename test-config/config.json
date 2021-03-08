@@ -1,0 +1,15 @@
+{
+    "groups": [{
+        "id": "default",
+        "name": "Default",
+        "color": "#4c7c2a"
+    }],
+    "apps": [{
+        "name": "OctoDeps",
+        "group": "default",
+        "assetVersionUrls": [
+            "https://raw.githubusercontent.com/kuroidoruido/OctoDeps/master/test-config/octodeps.octodeps.json",
+            "https://raw.githubusercontent.com/kuroidoruido/OctoDeps/master/test-config/octodeps-rs.octodeps.json"
+        ]
+    }]
+}

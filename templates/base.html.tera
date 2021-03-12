@@ -30,6 +30,9 @@
             max-width: 50rem;
             width: 30vw;
         }
+        .p-card:not(:first-of-type) {
+            margin-left: 0.5rem;
+        }
         .dep-item {
             display: flex;
         }

@@ -22,7 +22,7 @@ fn index(state: State<&RwLock<OctoDepsState>>) -> Template {
     for group in groups.iter() {
         groups_map.insert(group.id.clone(), group.clone());
     }
-    let context = TemplateContext { last_updated_on, groups, groups_map, apps };
+    let context = TemplateContext { last_updated_on, groups_map, groups, apps };
     Template::render("index", &context)
 }
 

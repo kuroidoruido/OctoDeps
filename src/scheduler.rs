@@ -14,15 +14,14 @@ pub fn grab_state_periodically(state: &'static RwLock<OctoDepsState>, config_pat
         let task = || {
             println!("load config {:?}", config_path);
             let config_result = config_reader::read_config(config_path.clone());
-            if config_result.is_ok() {
-                let mut config = config_result.unwrap();
+            if let Ok(mut config) = config_result {
                 for app in config.apps.iter_mut() {
                     let mut asset_infos = Vec::new();
                     for asset_url in app.asset_version_urls.iter() {
                         println!("load asset infos {:?}", asset_url);
                         let asset_infos_result = get_asset_info(asset_url.clone());
-                        if asset_infos_result.is_ok() {
-                            for asset_info in asset_infos_result.unwrap() {
+                        if let Ok(asset_infos_result_ok) = asset_infos_result {
+                            for asset_info in asset_infos_result_ok {
                                 asset_infos.push(asset_info);
                             }
                         } else {

@@ -1,6 +1,8 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-#[macro_use] extern crate rocket;
-#[macro_use] extern crate lazy_static;
+#[macro_use]
+extern crate rocket;
+#[macro_use]
+extern crate lazy_static;
 
 // use std::sync::RwLock;
 use structopt::StructOpt;
@@ -12,6 +14,7 @@ mod models;
 mod octodeps_opt;
 mod scheduler;
 mod state;
+mod tera_embeded;
 
 fn main() {
     let opt = octodeps_opt::OctodepsOpt::from_args();

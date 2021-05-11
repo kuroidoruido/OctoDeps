@@ -1,5 +1,5 @@
-use std::sync::RwLock;
 use crate::models::OctoDepsState;
+use std::sync::RwLock;
 
 lazy_static! {
     pub static ref STATE: RwLock<OctoDepsState> = RwLock::new(OctoDepsState {

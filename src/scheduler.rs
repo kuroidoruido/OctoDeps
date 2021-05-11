@@ -1,15 +1,15 @@
+use chrono::Utc;
+use job_scheduler::{Job, JobScheduler, Schedule};
 use std::sync::RwLock;
 use std::thread;
 use std::time::Duration;
-use chrono::Utc;
-use job_scheduler::{Job,JobScheduler,Schedule};
 
 use crate::config_reader;
 use crate::http_client::get_asset_info;
 use crate::models::OctoDepsState;
 
 pub fn grab_state_periodically(state: &'static RwLock<OctoDepsState>, config_path: String) {
-    thread::spawn(move|| {
+    thread::spawn(move || {
         let mut job_scheduler = JobScheduler::new();
         let task = || {
             println!("load config {:?}", config_path);
@@ -25,7 +25,11 @@ pub fn grab_state_periodically(state: &'static RwLock<OctoDepsState>, config_pat
                                 asset_infos.push(asset_info);
                             }
                         } else {
-                            println!("fail to load {:?} {:?}", asset_url, asset_infos_result.err().unwrap());
+                            println!(
+                                "fail to load {:?} {:?}",
+                                asset_url,
+                                asset_infos_result.err().unwrap()
+                            );
                         }
                     }
                     app.asset_infos = Some(asset_infos);

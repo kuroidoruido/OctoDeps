@@ -1,6 +1,6 @@
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use chrono::{DateTime,Utc};
-use serde::{Serialize, Deserialize};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct ConfigFile {
@@ -32,7 +32,6 @@ pub struct App {
     // use for template
     pub asset_infos: Option<Vec<AssetInfos>>,
 }
-
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]

@@ -1,0 +1,9 @@
+<style>
+.last-update-infos {
+    text-align: right;
+    color: var(--secondary-text-color);
+    margin-top: 2rem;
+}
+</style>
+
+<p class="last-update-infos">Last updated on: {{last_updated_on}}</p>

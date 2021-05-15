@@ -1,0 +1,45 @@
+<style>
+header#navigation {
+    display: flex;
+}
+header#navigation .logo {
+    display: flex;
+    padding: 1rem 2rem;
+}
+header#navigation nav {
+    display: flex;
+}
+header#navigation nav ul {
+    display: flex;
+    padding: 0;
+}
+header#navigation nav ul li {
+    list-style-type: none;
+    text-decoration: none;
+    padding-left: 1rem;
+}
+header#navigation nav ul li a {
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+</style>
+<header id="navigation">
+    <div class="logo">
+        🐙 OctoDeps
+    </div>
+    <nav aria-label="Groups">
+        <span class="sr-only">
+            <a href="#main-content">Jump to main content</a>
+        </span>
+        <ul>
+            <li class="is-selected">
+                <a href="?group=All">All</a>
+            </li>
+            {% for group in groups %}
+                <li>
+                    <a href="?group={{group.id}}">{{group.name}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</header>

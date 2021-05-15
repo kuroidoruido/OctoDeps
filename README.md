@@ -14,10 +14,9 @@ Under development tool. Not ready to use.
 
 ### Technologies
 
-- Rust 1.52.0-nightly
+- Rust 1.53.0-nightly
 - [Rocket](https://rocket.rs/) framework
 - [Tera](https://tera.netlify.app) for templating
-- [Vanilla Framework](https://vanillaframework.io/) for style
 
 ### Setup
 

@@ -14,12 +14,12 @@ lazy_static! {
 
 pub struct TeraEmbeded {}
 impl TeraEmbeded {
-    pub fn fairing(templates: &Vec<TeraEmbededTemplate>) -> impl Fairing {
+    pub fn fairing(templates: &[TeraEmbededTemplate]) -> impl Fairing {
         let mut tera = TERA.write().unwrap();
         let _ = tera.add_raw_templates(
             templates
                 .iter()
-                .map(|t| (t.name.clone(), t.template.clone())),
+                .map(|t| (&(*t.name), t.template.clone())),
         );
         Template::fairing()
     }

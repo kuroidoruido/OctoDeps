@@ -52,7 +52,7 @@ pub fn start(state: &'static RwLock<OctoDepsState>) {
             "/static",
             StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
         )
-        .attach(TeraEmbeded::fairing(&vec![
+        .attach(TeraEmbeded::fairing(&[
             tera_tpl!("style"),
             tera_tpl!("header"),
             tera_tpl!("last-update-infos"),

@@ -92,28 +92,18 @@ jobs:
         shell: bash
         if: matrix.target.os != 'windows-latest'
         run: |
-          mkdir -p target/package/
-          cp target/release/octodeps target/package/
-          cp -r static target/package/
-          cp -r templates target/package/
-          find target/package
-          tar czvf octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}.tar.gz -C target/package/ .
+          cp target/release/octodeps target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
       - name: Create Archive (Windows)
         if: matrix.target.os == 'windows-latest'
         run: |
-          mkdir target/package/
-          Copy-Item -Path "target/release/octodeps" -Destination "target/package"
-          Copy-Item -Path "static" -Destination "target/package" -Recurse
-          Copy-Item -Path "templates" -Destination "target/package" -Recurse
-          cd target/package
-          7z.exe a ../octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}.zip .
+          Copy-Item -Path "target/release/octodeps" -Destination "target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}"
 
       - name: Upload assets
         uses: softprops/action-gh-release@v1
         if: matrix.target.os != 'windows-latest'
         with:
           files: |
-            octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}.tar.gz
+            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload assets (Windows)
@@ -121,6 +111,6 @@ jobs:
         if: matrix.target.os == 'windows-latest'
         with:
           files: |
-            octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}.zip
+            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

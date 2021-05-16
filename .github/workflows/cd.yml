@@ -90,18 +90,18 @@ jobs:
         shell: bash
         if: matrix.target.os != 'windows-latest'
         run: |
-          cp target/release/octodeps target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
+          cp target/release/octodeps target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.os }}
       - name: Create Archive (Windows)
         if: matrix.target.os == 'windows-latest'
         run: |
-          Copy-Item -Path "target/release/octodeps" -Destination "target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}"
+          Copy-Item -Path "target/release/octodeps" -Destination "target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.os }}.exe"
 
       - name: Upload assets
         uses: softprops/action-gh-release@v1
         if: matrix.target.os != 'windows-latest'
         with:
           files: |
-            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
+            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.os }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload assets (Windows)
@@ -109,6 +109,6 @@ jobs:
         if: matrix.target.os == 'windows-latest'
         with:
           files: |
-            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.target }}
+            target/release/octodeps-${{ steps.get_version.outputs.VERSION }}-${{ matrix.target.os }}.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
